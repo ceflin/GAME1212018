@@ -7,11 +7,12 @@ public class OnDestroy : MonoBehaviour {
     //public GameObject bullet;
     //public GameObject enemy;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision coll)
     {
-        if (collision.gameObject.name == "Ammo")
+        if (coll.gameObject.name == "Enemy")
         {
-            Destroy(collision.gameObject);
+            Destroy(coll.gameObject);
+
         }
     }
 
