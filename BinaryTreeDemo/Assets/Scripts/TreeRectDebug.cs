@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using UnityEngine;
 using Assets;
 
@@ -29,8 +31,8 @@ public class TreeRectDebug : MonoBehaviour
         RectInt leftPartitionWorld = NodeRectWorld(leftPartitionNode);
         RectInt RightPartitionWorld = NodeRectWorld(rightPartitionNode);
 
-        print("Left: " + leftPartitionWorld);
-        print("Right: " + RightPartitionWorld);
+        //print("Left: " + leftPartitionWorld);
+        //print("Right: " + RightPartitionWorld);
 
         //split horizontally
         int halfPartHeight = partitionHeight / 2;
@@ -55,11 +57,54 @@ public class TreeRectDebug : MonoBehaviour
         RectInt lowerRightPartWorld = NodeRectWorld(lowerRightPartNode);
         RectInt upperRightPartWorld = NodeRectWorld(upperRightPartNode);
 
-        print("Lower left :" + lowerLeftPartWorld);
-        print("Upper left :" + upperLeftPartWorld);
-        print("Lower Right :" + lowerRightPartWorld);
-        print("Upper Right :" + upperRightPartWorld);
+        print("Lower left : " + lowerLeftPartWorld);
+        print("Upper left : " + upperLeftPartWorld);
+        print("Lower Right : " + lowerRightPartWorld);
+        print("Upper Right : " + upperRightPartWorld);
 
+        string[,] levelArray = new string[levelWidth, levelHeight];
+
+        for (int x = lowerLeftPartWorld.x; x < lowerLeftPartWorld.x + lowerLeftPartWorld.width; x++)
+        {
+            for (int y = lowerLeftPartWorld.y; y < lowerLeftPartWorld.y + lowerLeftPartWorld.height; y++)
+            {
+                levelArray[x, y] = "1 ";
+            }
+        }
+        for (int x = upperLeftPartWorld.x; x < upperLeftPartWorld.x + upperLeftPartWorld.width; x++)
+        {
+            for (int y = upperLeftPartWorld.y; y < upperLeftPartWorld.y + upperLeftPartWorld.height; y++)
+            {
+                levelArray[x, y] = "2 ";
+            }
+        }
+        for (int x = lowerRightPartWorld.x; x < lowerRightPartWorld.x + lowerRightPartWorld.width; x++)
+        {
+            for (int y = lowerRightPartWorld.y; y < lowerRightPartWorld.y + lowerRightPartWorld.height; y++)
+            {
+                levelArray[x, y] = "3 ";
+            }
+        }
+        for (int x = upperRightPartWorld.x; x < upperRightPartWorld.x + upperRightPartWorld.width; x++)
+        {
+            for (int y = upperRightPartWorld.y; y < upperRightPartWorld.y + upperRightPartWorld.height; y++)
+            {
+                levelArray[x, y] = "4 ";
+            }
+        }
+
+        StringBuilder contentBuilder = new StringBuilder();
+        for (int x = 0; x < levelArray.GetLength(0); x++)
+        {
+            for (int y = 0; y < levelArray.GetLength(1); y++)
+            {
+                contentBuilder.Append(levelArray[x, y]);
+            }
+            contentBuilder.AppendLine("");
+        }
+
+        string content = contentBuilder.ToString();
+        File.WriteAllText("C:\\Users\\svc-student\\Desktop\\sample.bspd", content);
 
     }
 
