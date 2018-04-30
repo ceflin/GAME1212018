@@ -34,6 +34,7 @@ namespace Assets
         public BinaryTreeNode<T> parent;
         public BinaryTreeNode<T> leftChild;
         public BinaryTreeNode<T> rightChild;
+        public BinaryTreeNode<T> corridor;
 
         public bool IsLeaf()
         {
@@ -97,6 +98,18 @@ namespace Assets
 
             throw new InvalidOperationException("Cannot add more than 2 children to a binary node.");
 
+        }
+
+        public BinaryTreeNode<T> AddCorridor(T corridorValue)
+        {
+            if (corridor == null)
+            {
+                corridor = new BinaryTreeNode<T>(corridorValue);
+                corridor.parent = this;
+                return corridor;
+            }
+
+            throw new InvalidOperationException("Cannot add more than 1 corridor to a binary node.");
         }
     }
 }
