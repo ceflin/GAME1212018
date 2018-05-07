@@ -15,42 +15,64 @@ public class TreeRectDebug : MonoBehaviour
     {
         BinaryTree<RectInt> sampleRectTree;
         sampleRectTree = new BinaryTree<RectInt>(new RectInt(0, 0, levelWidth, levelHeight));
+        
+        RectInt leftPartitionRect = new RectInt();
+        BinaryTreeNode<RectInt> leftPartitionNode = null;
+        leftPartitionNode = SplitFromRoot(0, 0, sampleRectTree, leftPartitionNode, leftPartitionRect);
 
         int partitionWidth = levelWidth / 2;
         int partitionHeight = levelHeight;
+        //RectInt leftPartitionRect = new RectInt();
+        //BinaryTreeNode<RectInt> leftPartitionNode = null;
+        //leftPartitionNode = SplitFromRoot(0, 0, partitionWidth, partitionHeight, sampleRectTree, leftPartitionNode, leftPartitionRect);
 
-        RectInt leftPartitionRect = new RectInt(0, 0, partitionWidth, partitionHeight);
-        BinaryTreeNode<RectInt> leftPartitionNode = sampleRectTree.Root().AddChild(leftPartitionRect);
+        //RectInt leftPartitionRect = new RectInt(0, 0, partitionWidth, partitionHeight);
+        //BinaryTreeNode<RectInt> leftPartitionNode = sampleRectTree.Root().AddChild(leftPartitionRect);
 
         int rightPartitionX = levelWidth / 2;
-        int rightPartitionY = 0;
+        RectInt rightPartitionRect = new RectInt();
+        BinaryTreeNode<RectInt> rightPartitionNode = null;
 
-        RectInt rightPartitionRect = new RectInt(rightPartitionX, rightPartitionY, partitionWidth, partitionHeight);
-        BinaryTreeNode<RectInt> rightPartitionNode = sampleRectTree.Root().AddChild(rightPartitionRect);
+        rightPartitionNode = SplitFromRoot(rightPartitionX, 0, sampleRectTree, rightPartitionNode, rightPartitionRect);
+
+        //RectInt rightPartitionRect = new RectInt(rightPartitionX, 0, partitionWidth, partitionHeight);
+        //BinaryTreeNode<RectInt> rightPartitionNode = sampleRectTree.Root().AddChild(rightPartitionRect);
 
         RectInt leftPartitionWorld = NodeRectWorld(leftPartitionNode);
         RectInt RightPartitionWorld = NodeRectWorld(rightPartitionNode);
         
         //split horizontally
-        int halfPartHeight = partitionHeight / 2;
+        //int halfPartHeight = partitionHeight / 2;
 
-        RectInt lowerLeftPartRect = new RectInt(0, 0, partitionWidth, halfPartHeight);
-        BinaryTreeNode<RectInt> lowerLeftPartNode = leftPartitionNode.AddChild(lowerLeftPartRect);
+        //RectInt lowerLeftPartRect = new RectInt(0, 0, partitionWidth, halfPartHeight);
+        //BinaryTreeNode<RectInt> lowerLeftPartNode = leftPartitionNode.AddChild(lowerLeftPartRect);
 
-        int upperLeftPartX = 0;
-        int upperLeftPartY = partitionHeight / 2;
+        RectInt lowerLeftPartRect = new RectInt();
+        BinaryTreeNode<RectInt> lowerLeftPartNode = null;
+        lowerLeftPartNode = SplitFromLeaf(0, 0, leftPartitionNode, lowerLeftPartNode, lowerLeftPartRect);
 
-        RectInt UpperLeftPartRect = new RectInt(upperLeftPartX, upperLeftPartY, partitionWidth, halfPartHeight);
-        BinaryTreeNode<RectInt> upperLeftPartNode = leftPartitionNode.AddChild(UpperLeftPartRect);
 
-        RectInt lowerRightPartRect = new RectInt(0, 0, partitionWidth, halfPartHeight);
-        BinaryTreeNode<RectInt> lowerRightPartNode = rightPartitionNode.AddChild(lowerRightPartRect);
+        int partition2Y = partitionHeight / 2;
+        RectInt upperLeftPartRect = new RectInt();
+        BinaryTreeNode<RectInt> upperLeftPartNode = null;
+        upperLeftPartNode = SplitFromLeaf(0, partition2Y, leftPartitionNode, upperLeftPartNode, upperLeftPartRect);
 
-        int upperRightPartX = 0;
-        int upperRightPartY = partitionHeight / 2;
+        //RectInt UpperLeftPartRect = new RectInt(upperLeftPartX, upperLeftPartY, partitionWidth, halfPartHeight);
+        //BinaryTreeNode<RectInt> upperLeftPartNode = leftPartitionNode.AddChild(UpperLeftPartRect);
 
-        RectInt UpperRightPartRect = new RectInt(upperRightPartX, upperRightPartY, partitionWidth, halfPartHeight);
-        BinaryTreeNode<RectInt> upperRightPartNode = rightPartitionNode.AddChild(UpperRightPartRect);
+        RectInt lowerRightPartRect = new RectInt();
+        BinaryTreeNode<RectInt> lowerRightPartNode = null;
+        lowerRightPartNode = SplitFromLeaf(0, 0, rightPartitionNode, lowerRightPartNode, lowerRightPartRect);
+
+        //RectInt lowerRightPartRect = new RectInt(0, 0, partitionWidth, halfPartHeight);
+        //BinaryTreeNode<RectInt> lowerRightPartNode = rightPartitionNode.AddChild(lowerRightPartRect);
+
+        RectInt upperRightPartRect = new RectInt();
+        BinaryTreeNode<RectInt> upperRightPartNode = null;
+        upperRightPartNode = SplitFromLeaf(0, partition2Y, rightPartitionNode, upperRightPartNode, upperRightPartRect);
+
+        //RectInt UpperRightPartRect = new RectInt(0, upperRightPartY, partitionWidth, halfPartHeight);
+        //BinaryTreeNode<RectInt> upperRightPartNode = rightPartitionNode.AddChild(UpperRightPartRect);
 
         RectInt lowerLeftPartWorld = NodeRectWorld(lowerLeftPartNode);
         RectInt upperLeftPartWorld = NodeRectWorld(upperLeftPartNode);
@@ -66,27 +88,31 @@ public class TreeRectDebug : MonoBehaviour
         int roomHight = (partitionHeight / 2) - 2;
         int roomWidth = (partitionWidth) - 2;
 
-        RectInt room1 = new RectInt(1, 1, roomWidth, roomHight);
-        BinaryTreeNode<RectInt> room1Node = lowerLeftPartNode.AddChild(room1);
+        RectInt room1 = new RectInt();
+        BinaryTreeNode<RectInt> room1Node = null;
+        MakeRoom(1, 1, lowerLeftPartNode, room1Node, room1);
 
-        RectInt room2 = new RectInt(1, 1, roomWidth, roomHight);
-        BinaryTreeNode<RectInt> room2Node = upperLeftPartNode.AddChild(room2);
+        //RectInt room1 = new RectInt(1, 1, roomWidth, roomHight);
+        //BinaryTreeNode<RectInt> room1Node = lowerLeftPartNode.AddChild(room1);
+
+        //RectInt room2 = new RectInt(1, 1, roomWidth, roomHight);
+        //BinaryTreeNode<RectInt> room2Node = upperLeftPartNode.AddChild(room2);
         
-        RectInt room3 = new RectInt(1, 1, roomWidth, roomHight);
-        BinaryTreeNode<RectInt> room3Node = lowerRightPartNode.AddChild(room3);
+        //RectInt room3 = new RectInt(1, 1, roomWidth, roomHight);
+        //BinaryTreeNode<RectInt> room3Node = lowerRightPartNode.AddChild(room3);
         
-        RectInt room4 = new RectInt(1, 1, roomWidth, roomHight);
-        BinaryTreeNode<RectInt> room4Node = upperRightPartNode.AddChild(room4);
+        //RectInt room4 = new RectInt(1, 1, roomWidth, roomHight);
+        //BinaryTreeNode<RectInt> room4Node = upperRightPartNode.AddChild(room4);
 
         RectInt room1World = NodeRectWorld(room1Node);
-        RectInt room2World = NodeRectWorld(room2Node);
-        RectInt room3World = NodeRectWorld(room3Node);
-        RectInt room4World = NodeRectWorld(room4Node);
+        //RectInt room2World = NodeRectWorld(room2Node);
+        //RectInt room3World = NodeRectWorld(room3Node);
+        //RectInt room4World = NodeRectWorld(room4Node);
 
         print("Room 1 : " + room1World);
-        print("Room 2 : " + room2World);
-        print("Room 3 : " + room3World);
-        print("Room 4 : " + room4World);
+        //print("Room 2 : " + room2World);
+        //print("Room 3 : " + room3World);
+        //print("Room 4 : " + room4World);
 
         for (int x = room1World.x; x < room1World.x + room1World.width; x++)
         {
@@ -138,27 +164,27 @@ public class TreeRectDebug : MonoBehaviour
                 levelArray[x, y] = "R ";
             }
         }
-        for (int x = room2World.x; x < room2World.x + room2World.width; x++)
-        {
-            for (int y = room2World.y; y < room2World.y + room2World.height; y++)
-            {
-                levelArray[x, y] = "R ";
-            }
-        }
-        for (int x = room3World.x; x < room3World.x + room3World.width; x++)
-        {
-            for (int y = room3World.y; y < room3World.y + room3World.height; y++)
-            {
-                levelArray[x, y] = "R ";
-            }
-        }
-        for (int x = room4World.x; x < room4World.x + room4World.width; x++)
-        {
-            for (int y = room4World.y; y < room4World.y + room4World.height; y++)
-            {
-                levelArray[x, y] = "R ";
-            }
-        }
+        //for (int x = room2World.x; x < room2World.x + room2World.width; x++)
+        //{
+        //    for (int y = room2World.y; y < room2World.y + room2World.height; y++)
+        //    {
+        //        levelArray[x, y] = "R ";
+        //    }
+        //}
+        //for (int x = room3World.x; x < room3World.x + room3World.width; x++)
+        //{
+        //    for (int y = room3World.y; y < room3World.y + room3World.height; y++)
+        //    {
+        //        levelArray[x, y] = "R ";
+        //    }
+        //}
+        //for (int x = room4World.x; x < room4World.x + room4World.width; x++)
+        //{
+        //    for (int y = room4World.y; y < room4World.y + room4World.height; y++)
+        //    {
+        //        levelArray[x, y] = "R ";
+        //    }
+        //}
 
         StringBuilder contentBuilder = new StringBuilder();
         for (int x = 0; x < levelArray.GetLength(0); x++)
@@ -190,6 +216,34 @@ public class TreeRectDebug : MonoBehaviour
         }
         return rectWorld;
     }
+
+    private BinaryTreeNode<RectInt> SplitFromRoot(int x, int y, BinaryTree<RectInt> rectTree, BinaryTreeNode<RectInt> nodeName, RectInt partName)
+    {
+        int width = levelWidth / 2;
+        int height = levelHeight;
+        partName = new RectInt(x, y, width, height);
+        nodeName = rectTree.Root().AddChild(partName);
+        return nodeName;
+    }
+
+    private BinaryTreeNode<RectInt> SplitFromLeaf(int x, int y, BinaryTreeNode<RectInt> parentNode, BinaryTreeNode<RectInt> nodeName, RectInt partName)
+    {
+        int width = parentNode.Value().width;
+        int height = parentNode.Value().height / 2;
+        partName = new RectInt(x, y, width, height);
+        nodeName = parentNode.AddChild(partName);
+        return nodeName;
+    }
+
+    private BinaryTreeNode<RectInt> MakeRoom(int x, int y, BinaryTreeNode<RectInt> parentNode, BinaryTreeNode<RectInt> nodeName, RectInt roomName)
+    {
+        int width = parentNode.Value().width - 2;
+        int height = parentNode.Value().height - 2;
+        RectInt room1 = new RectInt(1, 1, width, height);
+        nodeName = parentNode.AddChild(room1);
+        return nodeName;
+    }
+
 
     // Update is called once per frame
     void Update()
